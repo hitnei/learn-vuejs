@@ -1,8 +1,7 @@
 <template>
   <div id="app" class="container">
-    <SourceSelection @sourceChanged="handleSourceChange"></SourceSelection>
+    <SourceSelection :source="source" @sourceChanged="handleSourceChange"></SourceSelection>
     <NewsList :source="source"></NewsList>
-    app
   </div>
 </template>
 
