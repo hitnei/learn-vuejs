@@ -1,7 +1,8 @@
 <template>
   <div class="newslist">
     <div class="container">
-      <ul class="media-list">
+      <h3 v-show="loading">...Loading</h3>
+      <ul v-show="!loading" class="media-list">
         <li class="media" :key="index" v-for="(article, index) in articles">
           <div class="media-left">
             <a :href="article.url" target="_blank">
@@ -27,10 +28,14 @@ export default {
   name: "newslist",
   props: ["source"],
   data() {
-    return { articles: [] };
+    return {
+      loading: true,
+      articles: [],
+    };
   },
   methods: {
-    updateSource: function (source) {
+    updateSource: function async(source) {
+      this.loading = true;
       this.$http
         .get(
           `https://newsapi.org/v2/top-headlines?sources=${source.id}&apiKey=b2c5aa5c6363445d83c080a505e25e4e`
@@ -39,6 +44,7 @@ export default {
           if (res) {
             this.articles = res.body.articles;
           }
+          this.loading = false;
         });
     },
   },
